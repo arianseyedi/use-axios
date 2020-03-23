@@ -39,13 +39,16 @@ export type UseAxiosMultiReturnType = [UseAxiosMultiState, Refetch]
  */
 export interface Config {
   /**
-   * Sets the axios instance using the given config object, useAxios hooks of this library use this instance for further API calls.
+   * Sets (or resets) the axios instance using the given config object, useAxios hooks of this library use this instance for further API calls.
    * It is not mandatory that you configure a base instance to start with. If not set, a fresh instance of axios will be used with
    * an empty conifguration
    * object.
    *
    * @memberof Config
    */
-  setInstance: (config: AxiosRequestConfig) => void
+  setInstance: (config: AxiosRequestConfig | AxiosInstance) => void
+  /**
+   * gets the instance that will be used
+   */
   getInstance: () => AxiosInstance
 }

@@ -4,8 +4,12 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 export const config = ((): Config => {
   let _axios_instance: AxiosInstance
 
-  const setInstance = (config: AxiosRequestConfig) => {
+  const setInstanceWithConfig = (config: AxiosRequestConfig) => {
     _axios_instance = axios.create(config)
+  }
+
+  const setInstance = (instance: AxiosInstance) => {
+    _axios_instance = instance
   }
 
   const getInstance = () => {
@@ -17,7 +21,10 @@ export const config = ((): Config => {
   }
 
   return {
-    setInstance: (config: AxiosRequestConfig) => setInstance(config),
+    setInstance: (config: AxiosRequestConfig | AxiosInstance) =>
+      (config as AxiosRequestConfig).adapter
+        ? setInstanceWithConfig(config as AxiosRequestConfig)
+        : setInstance(config as AxiosInstance),
     getInstance: () => getInstance(),
   }
 })()
