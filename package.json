@@ -1,0 +1,23 @@
+{
+  "name": "useAxios",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^13.9.3",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/react": "^16.9.25",
+    "axios": "^0.19.2",
+    "react": "^16.13.1"
+  }
+}
