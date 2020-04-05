@@ -1,7 +1,7 @@
 {
   "name": "@bytect/use-axios",
-  "version": "0.1.1",
-  "description": "",
+  "version": "0.1.5",
+  "description": "An axios hook that supports options such as polling, refetch. This library allows you to pass your configured axios instance in case you wish to replace the default intance.",
   "main": "index.js",
   "scripts": {
     "main": "dist/index.js",
@@ -9,12 +9,32 @@
     "prepublish": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "keywords": [
+    "axios hook",
+    "axios polling",
+    "react"
+  ],
+  "author": {
+    "name": "Arian Seyedi",
+    "email": "bytectgroup@gmail.com"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^13.9.3",
     "typescript": "^3.8.3"
+  },
+  "bugs": {
+    "url": "https://github.com/arianseyedi/use-axios/issues",
+    "email": "bytectgroup@gmail.com"
+  },
+  "homepage": "https://github.com/arianseyedi/use-axios#readme",
+  "repository": {
+    "type": "git",
+    "directory": "https://github.com/arianseyedi/use-axios"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
