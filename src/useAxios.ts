@@ -16,20 +16,19 @@ const defaultState: UseAxiosState<any> = {
  * @param options useAxios options. For polling, please pass this option from the initial render of this hook.
  * @author Arian Seyedi
  */
-function useAxiosBase<R, T = any>(
+function useAxiosBase<R>(
   config: AxiosRequestConfig,
-  transformer: (data: T) => R,
   axiosPromiseConstructor: <T>(
     config: AxiosRequestConfig,
     cancelToken: CancelToken
   ) => AxiosPromise<T>,
-  options: UseAxiosBaseOptions
+  options?: UseAxiosBaseOptions
 ): UseAxiosReturnType<R> {
   const [state, setState] = useState<UseAxiosState<R>>(defaultState) // simple one time fetch (either - or basis)
   const [redo, setRedo] = useState<number>(0)
   const [intervalState, setIntervalState] = useState<UseAxiosState<R>>(defaultState) // interval fetch (either - or basis)
   const { url } = config
-  const { skip, pollingInterval } = options
+  const { skip, pollingInterval } = options || {}
 
   const handleIncrementRedo = () => {
     setRedo((redo + 1) % 2)
@@ -42,15 +41,15 @@ function useAxiosBase<R, T = any>(
       else setState({ error: false, loading: true })
 
       try {
-        const response = await axiosPromiseConstructor<T>(config, source.token)
+        const response = await axiosPromiseConstructor<R>(config, source.token)
         // either polls or not, if polling then pollingData state is constantly updated
         if (pollingInterval)
           setIntervalState({
             error: false,
             loading: false,
-            data: transformer(response.data),
+            data: response.data,
           })
-        else setState({ error: false, loading: false, data: transformer(response.data) })
+        else setState({ error: false, loading: false, data: response.data })
       } catch (error) {
         if (Axios.isCancel(error)) {
           console.warn('use axios call cancelled: ', error)
@@ -114,10 +113,9 @@ function useAxiosBase<R, T = any>(
  * @param options useAxios options. For polling, please pass this option from the initial render of this hook.
  * @author Arian Seyedi
  */
-export function useAxios<R, T = any>(
+export function useAxios<R>(
   requestConfig: AxiosRequestConfig,
-  transformer: (data: T) => R,
-  options: UseAxiosBaseOptions
+  options?: UseAxiosBaseOptions
 ): UseAxiosReturnType<R> {
-  return useAxiosBase(requestConfig, transformer, config.getInstance(), options)
+  return useAxiosBase(requestConfig, config.getInstance(), options)
 }

@@ -21,17 +21,16 @@ const defaultState: UseAxiosMultiState = {
 type AxiosOutputTransformer<T = any> = (data: T) => any
 function useAxiosMultiBase(
   configs: AxiosRequestConfig[],
-  transformers: AxiosOutputTransformer[],
   axiosPromiseConstructor: (
     config: AxiosRequestConfig,
     cancelToken: CancelToken
   ) => AxiosPromise,
-  options: UseAxiosBaseOptions
+  options?: UseAxiosBaseOptions
 ): UseAxiosMultiReturnType {
   const [state, setState] = useState<UseAxiosMultiState>(defaultState) // simple one time fetch (either - or basis)
   const [redo, setRedo] = useState<number>(0) // simple one time fetch (either - or basis)
   const [intervalState, setIntervalState] = useState<UseAxiosMultiState>(defaultState) // interval fetch (either - or basis)
-  const { skip, pollingInterval } = options
+  const { skip, pollingInterval } = options || {}
 
   const handleIncrementRedo = () => {
     setRedo((redo + 1) % 2)
@@ -45,11 +44,11 @@ function useAxiosMultiBase(
 
       try {
         const resultData: any[] = []
-        const promises = configs.map(config => axiosPromiseConstructor(config, source.token))
+        const promises = configs.map((config) => axiosPromiseConstructor(config, source.token))
         const results = await Promise.all(promises)
 
         results.forEach((result, index) => {
-          resultData.push(transformers[index](result.data))
+          resultData.push(result.data)
         })
 
         if (pollingInterval)
@@ -111,8 +110,7 @@ function useAxiosMultiBase(
  */
 export function useAxiosMulti(
   resquestConfigs: AxiosRequestConfig[],
-  transformers: AxiosOutputTransformer[],
-  options: UseAxiosBaseOptions
+  options?: UseAxiosBaseOptions
 ): UseAxiosMultiReturnType {
-  return useAxiosMultiBase(resquestConfigs, transformers, config.getInstance(), options)
+  return useAxiosMultiBase(resquestConfigs, config.getInstance(), options)
 }
