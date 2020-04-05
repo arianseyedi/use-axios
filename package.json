@@ -1,6 +1,6 @@
 {
   "name": "@bytect/use-axios",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "An axios hook that supports options such as polling, refetch. This library allows you to pass your configured axios instance in case you wish to replace the default intance.",
   "main": "index.js",
   "scripts": {
